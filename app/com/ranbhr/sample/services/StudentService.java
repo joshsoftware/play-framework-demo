@@ -25,6 +25,7 @@ public class StudentService implements IStudentService{
 		this.studentRepository = studentRepository;
 		this.ec = context;
 	}
+	
 	@Override
 	public CompletionStage<Optional<StudentDTO>> findById(int id) {
 		return studentRepository.get(id).thenApplyAsync(student -> { 

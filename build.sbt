@@ -13,6 +13,7 @@ libraryDependencies += "org.hibernate" % "hibernate-core" % "5.4.9.Final" // rep
 libraryDependencies += "org.postgresql" % "postgresql" % "42.2.12"
 libraryDependencies += javaWs
 libraryDependencies += "org.mockito" % "mockito-core" % "2.10.0" % "test"
+libraryDependencies += "io.jsonwebtoken" % "jjwt" % "0.8.0"
 
 // Java project. Don't expect Scala IDE
 EclipseKeys.projectFlavor := EclipseProjectFlavor.Java

@@ -12,7 +12,7 @@ import static java.util.concurrent.CompletableFuture.*;
 
 import java.util.Base64;
 
-public class AuthenticationAction extends Action.Simple {
+public class BasicAuthenticationAction extends Action.Simple {
 
 	@Override
 	public CompletionStage<Result> call(Request req) {

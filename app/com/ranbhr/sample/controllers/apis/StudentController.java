@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.ranbhr.sample.controllers.apis.authentication.JwtAuthenticationAction;
 import com.ranbhr.sample.dtos.StudentDTO;
 import com.ranbhr.sample.services.IStudentService;
 import com.ranbhr.sample.utils.Constants;
@@ -44,7 +45,7 @@ public class StudentController extends Controller{
 		this.config = config;
 	}
 	
-	@With(AuthenticationAction.class)
+	@With(JwtAuthenticationAction.class)
 	public CompletionStage<Result> retrieve(int id) {
 		return studentService.findById(id).
 				thenApplyAsync(studentOptional -> {
@@ -55,7 +56,7 @@ public class StudentController extends Controller{
 	    
 	}
 	
-	@With(AuthenticationAction.class)
+	@With(JwtAuthenticationAction.class)
 	public CompletionStage<Result> addStudent(Http.Request request) {
 		StudentDTO student = Json.fromJson(request.body().asJson(), StudentDTO.class);
 		return studentService.addStudent(student).thenApplyAsync(newStudent -> {
@@ -63,7 +64,7 @@ public class StudentController extends Controller{
 		}, ec.current());
 	}
 	
-	@With(AuthenticationAction.class)
+	@With(JwtAuthenticationAction.class)
 	public CompletionStage<Result> getStudentData(int id) {
 		return wsClient.url(config.getString("ws.students.data") 
 				+ String.format(Constants.studentDataUrl,id))
@@ -73,7 +74,7 @@ public class StudentController extends Controller{
 		            }, ec.current());
 	}
 	
-	@With(AuthenticationAction.class)
+	@With(JwtAuthenticationAction.class)
 	public CompletionStage<Result> findAll() {
 		return studentService.list().thenApplyAsync(students -> {
 			return ok(createResponse(students.collect(Collectors.toList()), true));
