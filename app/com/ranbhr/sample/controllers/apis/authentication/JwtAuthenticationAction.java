@@ -1,7 +1,7 @@
 package com.ranbhr.sample.controllers.apis.authentication;
 
 import static com.ranbhr.sample.utils.JsonResponseGenerator.createResponse;
-import static java.util.concurrent.CompletableFuture.completedStage;
+import static java.util.concurrent.CompletableFuture.*;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
@@ -22,10 +22,12 @@ import play.mvc.Result;
 public class JwtAuthenticationAction extends Action.Simple {
 
 	private SystemUserService userService;
+	private JwtClient jwtClient; 
 	
 	@Inject
-	public JwtAuthenticationAction(SystemUserService userService) {
+	public JwtAuthenticationAction(SystemUserService userService, JwtClient jwtClient) {
 		this.userService = userService;
+		this.jwtClient = jwtClient;
 	}
 	
 	@Override
@@ -38,13 +40,10 @@ public class JwtAuthenticationAction extends Action.Simple {
 		String token = authHeader.get().substring("Bearer ".length());
 		
 		try {
-			SystemUserDTO systemUserDTO = JwtClient.getUserFromToken(token);
-			SystemUserDTO userDTO = userService.findByUsername(systemUserDTO.getUsername()).toCompletableFuture().get();
-			return delegate.call(req.addAttr(Attrs.USER, userDTO));	
-		} catch (UserNotFoundException | ExpiredJwtException e) {
+			return userService.findByUsername(jwtClient.getUserFromToken(token).getUsername())
+					.thenCompose(user -> { return delegate.call(req.addAttr(Attrs.USER, user));});	
+		} catch (UserNotFoundException e) {
 			return completedStage(unauthorized(createResponse("Unauthorized",false)));
-		} catch ( InterruptedException | ExecutionException  e) {
-			return completedStage(internalServerError(createResponse("Something went wrong",false)));
 		}
 		
 	}

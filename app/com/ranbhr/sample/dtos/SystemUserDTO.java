@@ -1,6 +1,5 @@
 package com.ranbhr.sample.dtos;
 
-import com.ranbhr.sample.models.RoleEnum;
 import com.ranbhr.sample.models.SystemUser;
 
 public class SystemUserDTO {
@@ -21,6 +20,5 @@ public class SystemUserDTO {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
 
 }
