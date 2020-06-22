@@ -30,13 +30,14 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
 	public ErrorHandler(Config config, Environment environment, OptionalSourceMapper sourceMapper,
 			Provider<Router> routes) {
 		super(config, environment, sourceMapper, routes);
-		// TODO Auto-generated constructor stub
 	}
 
 	public CompletionStage<Result> onServerError(RequestHeader request, Throwable exception) {
-//        Logger.error(AppUtils.concatStrings("Exception: method: ", request.path(), " time:", DateTime.now().toString(),
-  //              " uri=", request.uri(), " remote-address=", request.remoteAddress(), "cause: ", exception.getMessage()));
-		Throwable cause = exception.getCause();
+
+		Throwable cause = exception;
+		if (exception instanceof CompletionException) {
+			cause = exception.getCause();
+		}
 		
         if (cause instanceof AuthException) {
             return CompletableFuture.completedFuture(
@@ -45,9 +46,9 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
         
         if (cause instanceof UserNotFoundException) {
         	return CompletableFuture.completedFuture(
-                    Results.unauthorized(createResponse(cause.getMessage(), false)));
+                    Results.unauthorized(createResponse("Unauthorized", false)));
         }
-        
+
         return CompletableFuture.completedFuture(
                 Results.internalServerError(createResponse("Something went wrong", false)));
     }

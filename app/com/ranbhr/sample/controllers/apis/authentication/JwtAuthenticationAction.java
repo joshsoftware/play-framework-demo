@@ -14,6 +14,7 @@ import com.ranbhr.sample.repositories.UserNotFoundException;
 import com.ranbhr.sample.services.SystemUserService;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import play.mvc.Action;
 import play.mvc.Http.Request;
 import play.mvc.Result;
@@ -36,15 +37,16 @@ public class JwtAuthenticationAction extends Action.Simple {
 		if (authHeader.isEmpty() || !authHeader.get().startsWith("Bearer ")) {
 			return completedStage(badRequest(createResponse("Invalid authentication header", false)));
 		}
-		
-		String token = authHeader.get().substring("Bearer ".length());
+		SystemUserDTO token = null;
 		
 		try {
-			return userService.findByUsername(jwtClient.getUserFromToken(token).getUsername())
-					.thenCompose(user -> { return delegate.call(req.addAttr(Attrs.USER, user));});	
-		} catch (UserNotFoundException e) {
-			return completedStage(unauthorized(createResponse("Unauthorized",false)));
+			token = jwtClient.getUserFromToken(authHeader.get().substring("Bearer ".length()));
+		} catch (JwtException e) {
+			throw new AuthException();
 		}
+		
+		return userService.findByUsername(token.getUsername())
+				.thenCompose(user -> { return delegate.call(req.addAttr(Attrs.USER, user));});	
 		
 	}
 

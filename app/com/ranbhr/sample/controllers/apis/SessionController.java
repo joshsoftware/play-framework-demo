@@ -35,19 +35,9 @@ public class SessionController extends Controller {
 
 	public CompletionStage<Result> generateToken(Http.Request request) {
 		LoginDto loginDto = Json.fromJson(request.body().asJson(), LoginDto.class);
-		return userService.findByUsername(loginDto.getUsername())
-		.exceptionally(exception -> {
-			throw new AuthException();
-		}).thenApplyAsync(user -> {
+		return userService.verify(loginDto)
+		.thenApplyAsync(user -> {
 			return ok(createResponse(jwtClient.generateToken(user), true));
 		});
-		/*
-		 * try { return
-		 * userService.findByUsername(loginDto.getUsername()).thenApplyAsync(user -> {
-		 * return ok(createResponse(jwtClient.generateToken(user), true)); }); } catch
-		 * (Exception e) { return
-		 * completedStage(unauthorized(createResponse("Invalid credentials",false))); }
-		 * 
-		 */ 
 	}
 }

@@ -34,9 +34,6 @@ public class SystemUserService {
 	
 	public CompletionStage<SystemUserDTO> verify(LoginDto loginDto) {
 		return systemUserRepository.findByUsername(loginDto.getUsername())
-				.exceptionally(exception -> {
-					throw new AuthException();
-				})
 				.thenApplyAsync(user -> { 
 					if (user.getPassword().equals(loginDto.getPassword())){
 						return new SystemUserDTO(user);

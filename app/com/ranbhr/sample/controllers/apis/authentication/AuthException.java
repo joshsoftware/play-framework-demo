@@ -2,7 +2,7 @@ package com.ranbhr.sample.controllers.apis.authentication;
 
 public class AuthException extends RuntimeException {
 	
-	private static String message = "Invalid credentials"; 
+	private static String message = "Unauthorized"; 
 	
 	public AuthException() {
 		this(message);
