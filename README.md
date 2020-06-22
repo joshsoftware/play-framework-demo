@@ -6,11 +6,11 @@ Note: This project uses sbt as build tool, make sure it is installed
 ## Database setup
   This project is configured to use Postgre database. You will find the configuration details in /conf/application.conf  
   Update below configuration details as per your database configuration.  
-      `
+      ```
       default.url = "jdbc:postgresql://localhost:5432/<dbname>"  
       default.username = <username>  
       default.password = "<password>"  
-      `
+      ```
   
   Note:  
   1. Make sure password and database url are enclosed in double quotes  
@@ -25,24 +25,35 @@ Note: This project uses sbt as build tool, make sure it is installed
 
 ## API details
 ### Authentication
-  Basic authentication with credentials Admin:Pwd123  
+  JWT authentication  
+1. Generate token  
+    POST /token/generate  
+    Request Body  
+        ```  
+        {  
+          "username" : "<username>",  
+          "password" : "<password>"  
+        }  
+        ```    
+    Note: Please seed your data in SystemUser table  
   
-1. Get all students  
+### Students APIs  
+1. Get all students
     GET /students  
+    Header Authorization: Bearer \<token\>
     
-2. Get specific student details using id  
+2. Get specific student details using id    
     GET /students/{id}  
+    Header Authorization: Bearer \<token\>  
 
 3. Add new student  
     POST /students  
+    Header Authorization: Bearer \<token\>  
     Request Body  
-      ```
-      {
-        "firstName": "firstname",
-        "lastName" : "lastname"
-      }
-      ```
+      ```  
+      {  
+        "firstName": "firstname",  
+        "lastName" : "lastname"  
+      }  
+      ```  
     
-
-
-
