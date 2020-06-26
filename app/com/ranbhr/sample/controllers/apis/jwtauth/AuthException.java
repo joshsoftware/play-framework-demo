@@ -1,4 +1,4 @@
-package com.ranbhr.sample.controllers.apis.authentication;
+package com.ranbhr.sample.controllers.apis.jwtauth;
 
 public class AuthException extends RuntimeException {
 	

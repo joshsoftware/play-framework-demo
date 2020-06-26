@@ -1,4 +1,4 @@
-package com.ranbhr.sample.controllers.apis.authentication;
+package com.ranbhr.sample.controllers.apis.jwtauth;
 
 import java.util.Date;
 import java.util.HashMap;

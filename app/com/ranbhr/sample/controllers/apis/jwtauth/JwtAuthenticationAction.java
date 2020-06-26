@@ -1,19 +1,15 @@
-package com.ranbhr.sample.controllers.apis.authentication;
+package com.ranbhr.sample.controllers.apis.jwtauth;
 
 import static com.ranbhr.sample.utils.JsonResponseGenerator.createResponse;
 import static java.util.concurrent.CompletableFuture.*;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
-import java.util.concurrent.ExecutionException;
-
 import javax.inject.Inject;
 
 import com.ranbhr.sample.controllers.apis.Attrs;
 import com.ranbhr.sample.dtos.SystemUserDTO;
-import com.ranbhr.sample.repositories.UserNotFoundException;
 import com.ranbhr.sample.services.SystemUserService;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import play.mvc.Action;
 import play.mvc.Http.Request;

@@ -4,10 +4,8 @@ import java.util.concurrent.CompletionStage;
 
 import javax.inject.Inject;
 
-import com.ranbhr.sample.controllers.apis.authentication.AuthException;
-import com.ranbhr.sample.controllers.apis.authentication.JwtClient;
+import com.ranbhr.sample.controllers.apis.jwtauth.JwtClient;
 import com.ranbhr.sample.dtos.LoginDto;
-import com.ranbhr.sample.repositories.UserNotFoundException;
 import com.ranbhr.sample.services.SystemUserService;
 
 import play.libs.Json;
@@ -16,11 +14,9 @@ import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 
-import static java.util.concurrent.CompletableFuture.*;
 import static com.ranbhr.sample.utils.JsonResponseGenerator.*;
 
 public class SessionController extends Controller {
-	
 
 	private HttpExecutionContext ec;
 	private SystemUserService userService;
@@ -38,6 +34,6 @@ public class SessionController extends Controller {
 		return userService.verify(loginDto)
 		.thenApplyAsync(user -> {
 			return ok(createResponse(jwtClient.generateToken(user), true));
-		});
+		}, ec.current());
 	}
 }

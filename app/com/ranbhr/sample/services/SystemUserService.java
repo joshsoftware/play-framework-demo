@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ranbhr.sample.controllers.apis.authentication.AuthException;
+import com.ranbhr.sample.controllers.apis.jwtauth.AuthException;
 import com.ranbhr.sample.dtos.LoginDto;
 import com.ranbhr.sample.dtos.SystemUserDTO;
 import com.ranbhr.sample.repositories.SystemUserRepository;

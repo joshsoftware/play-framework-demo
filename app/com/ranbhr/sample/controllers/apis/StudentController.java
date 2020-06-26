@@ -10,7 +10,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.ranbhr.sample.controllers.apis.authentication.JwtAuthenticationAction;
+import com.ranbhr.sample.controllers.apis.jwtauth.JwtAuthenticationAction;
 import com.ranbhr.sample.dtos.StudentDTO;
 import com.ranbhr.sample.services.IStudentService;
 import com.ranbhr.sample.utils.Constants;

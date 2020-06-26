@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.inject.Singleton;
 
-import com.ranbhr.sample.controllers.apis.authentication.AuthException;
+import com.ranbhr.sample.controllers.apis.jwtauth.AuthException;
 import com.ranbhr.sample.repositories.UserNotFoundException;
 import com.typesafe.config.Config;
 
